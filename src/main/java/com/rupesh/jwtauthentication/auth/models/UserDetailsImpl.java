@@ -1,7 +1,6 @@
-package com.rupesh.jwtauthentication.models;
+package com.rupesh.jwtauthentication.auth.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.rupesh.jwtauthentication.auth.entity.Role;
 import com.rupesh.jwtauthentication.auth.entity.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

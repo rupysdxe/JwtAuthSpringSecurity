@@ -1,6 +1,5 @@
 package com.rupesh.jwtauthentication.auth.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -18,7 +17,6 @@ public class User {
     @Id
     @Email
     private String email;
-    @JsonIgnore
     private String password;
     @OneToMany(fetch = FetchType.EAGER)
     private Set<Role> roles;

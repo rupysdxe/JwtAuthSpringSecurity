@@ -1,6 +1,7 @@
 package com.rupesh.jwtauthentication.controller;
 
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -10,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class WelcomeController {
 
     @GetMapping
-    public String welcome(){
-        return "Welcome to the world of Spring Security";
+    public ResponseEntity<?> welcome(){
+        return ResponseEntity.ok("Welcome to jwt authentication");
     }
 }
