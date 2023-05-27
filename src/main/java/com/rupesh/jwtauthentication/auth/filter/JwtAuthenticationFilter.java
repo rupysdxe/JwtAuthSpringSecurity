@@ -4,6 +4,7 @@ import com.rupesh.jwtauthentication.auth.service.JwtService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -16,6 +17,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Collection;
 
 @Component // We need to register this filter as a bean
 @RequiredArgsConstructor
@@ -32,25 +34,24 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         final String authorizationHeader = request.getHeader("Authorization");
         final String jwt;
         final String username;
+        final Collection<GrantedAuthority> authorities;
         // First we check if the request has Authorization Header
         if(authorizationHeader != null && authorizationHeader.startsWith("Bearer ")){
             // If it has Authorization Header then we extract the jwt token
             jwt = authorizationHeader.substring(7);
-            // We extract the username from the jwt token
             username = jwtService.getUsernameFromToken(jwt);
+            authorities = jwtService.extractAuthoritiesFromToken(jwt);
+
             // We check if the username is not null and the user is not already authenticated
             if(username!=null && !username.isEmpty() && SecurityContextHolder.getContext().getAuthentication()==null)
             {
-                // We load the user details from the database
-                UserDetails userDetails = userDetailsService.loadUserByUsername(username);
                 // We check if the token is valid
-                if(jwtService.isTokenValid(jwt,userDetails)){
+                if(jwtService.isTokenValid(jwt)){
                     // If the token is valid then we set the authentication in the context
-                    UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new
-                            UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+                    UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =  new
+                            UsernamePasswordAuthenticationToken(username, null, authorities);
                     // We set the details of the authentication
-                    usernamePasswordAuthenticationToken.setDetails(
-                            new WebAuthenticationDetailsSource().buildDetails(request));
+                    usernamePasswordAuthenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                     // We set the authentication in the context
                     SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
                 }//

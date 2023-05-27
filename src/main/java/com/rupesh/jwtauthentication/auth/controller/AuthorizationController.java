@@ -39,14 +39,9 @@ public class AuthorizationController {
     @PostMapping
     public ResponseEntity<?> createAuthenticationToken(@RequestBody AuthenticationRequest authenticationRequest){
         UserDetails userDetails = authenticateUser(authenticationRequest);
-        List<String> roles = userDetails.getAuthorities()
-                .stream()
-                .map(GrantedAuthority::getAuthority)
-                .collect(Collectors.toList());
         JwtToken jwtToken = JwtToken.builder()
                 .username(userDetails.getUsername())
                 .jwt(jwtService.generateToken(userDetails))
-                .roles(roles)
                 .build();
         return ResponseEntity.ok(jwtToken);
     }
