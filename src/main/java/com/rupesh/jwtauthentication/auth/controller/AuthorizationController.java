@@ -40,7 +40,6 @@ public class AuthorizationController {
     public ResponseEntity<?> createAuthenticationToken(@RequestBody AuthenticationRequest authenticationRequest){
         UserDetails userDetails = authenticateUser(authenticationRequest);
         JwtToken jwtToken = JwtToken.builder()
-                .username(userDetails.getUsername())
                 .jwt(jwtService.generateToken(userDetails))
                 .build();
         return ResponseEntity.ok(jwtToken);

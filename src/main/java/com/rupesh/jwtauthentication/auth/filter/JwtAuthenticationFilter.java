@@ -23,7 +23,6 @@ import java.util.Collection;
 @RequiredArgsConstructor
 @Slf4j
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
-    private final UserDetailsService userDetailsService;
     private final JwtService jwtService;
 
     @Override
@@ -41,7 +40,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             jwt = authorizationHeader.substring(7);
             username = jwtService.getUsernameFromToken(jwt);
             authorities = jwtService.extractAuthoritiesFromToken(jwt);
-
             // We check if the username is not null and the user is not already authenticated
             if(username!=null && !username.isEmpty() && SecurityContextHolder.getContext().getAuthentication()==null)
             {
