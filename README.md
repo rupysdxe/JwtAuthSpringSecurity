@@ -73,12 +73,8 @@ Response Body
 
 ```http
 {
-    "username": "rupesh@gmail.com",
     "jwt": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJydXBlc2hAZ21haWwuY29tIiwiaWF0IjoxNjg1MjEwNDUzLCJleHAiOjE2ODUyOTY4NTN9.raVpdlJDhNKqk-EjzRoxNY6J93QHnSFznwf3ONp7LQq8ep7M6xAPpkj7JI9tl0QqszeN8D5KVyNZeGa65mB-3g",
-    "roles": [
-        "ROLE_ADMIN",
-        "ROLE_USER"
-    ]
+    
 }
 ```
 
